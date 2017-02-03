@@ -340,7 +340,7 @@ func (c *catalog) parseTag(t string) *Tag {
 		// pop the sha, build, and version from the back
 		// join whats left into the branch
 		tag.Tag = t
-		tag.Owner, tagParts = tagParts[0], tagParts[1:]
+		tag.Owner, tagParts = c.vargs.DockerUsername, tagParts[1:]
 		tag.Project, tagParts = tagParts[0], tagParts[1:]
 		tag.SHA, tagParts = tagParts[len(tagParts)-1], tagParts[:len(tagParts)-1]
 		build, tagParts = tagParts[len(tagParts)-1], tagParts[:len(tagParts)-1]
@@ -350,7 +350,7 @@ func (c *catalog) parseTag(t string) *Tag {
 	case releaseRe.MatchString(t):
 		// fmt.Println("Found Release Tag", t)
 		tag.Tag = t
-		tag.Owner = c.repo.Owner
+		tag.Owner = c.vargs.DockerUsername
 		tag.Project = c.repo.Name
 		tag.Branch = "master"
 		tag.Build = 1
